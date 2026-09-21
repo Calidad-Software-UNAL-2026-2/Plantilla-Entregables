@@ -1,0 +1,26 @@
+name: "Requisito no funcional"
+description: "Registrar un requisito no funcional derivado del modelo verbal (Paso 2, ítem 4)"
+title: "[RNF] "
+labels: ["tipo:no-funcional"]
+body:
+  - type: input
+    id: atributo
+    attributes:
+      label: Atributo de calidad
+      description: "Ej: rendimiento, seguridad, usabilidad, disponibilidad"
+    validations:
+      required: true
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción del requisito
+      description: Redacta el requisito de forma clara y verificable
+    validations:
+      required: true
+  - type: textarea
+    id: origen
+    attributes:
+      label: Origen
+      description: ¿De qué necesidad de negocio/interesado o parte del modelo verbal se deriva?
+    validations:
+      required: true

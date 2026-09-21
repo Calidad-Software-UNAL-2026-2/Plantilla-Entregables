@@ -1,0 +1,160 @@
+name: "Paso 3 — Mapa de Procesos (paralelo)"
+
+# Úsalo si tu modelo de ciclo de vida SÍ tiene procesos que ocurren en
+# paralelo (dos o más ramas de trabajo simultáneas que luego se unen).
+# Si tu modelo es de flujo único, usa en su lugar
+# "mapa-procesos-flujo-unico.yml".
+#
+# Cada rama en paralelo escribe en SU PROPIO archivo (rama-a / rama-b)
+# para evitar que dos jobs compitan por escribir el mismo archivo al
+# mismo tiempo (condición de carrera). Al final, un job de consolidación
+# une ambos archivos en un solo documento.
+#
+# Cómo usarlo: igual que el workflow de flujo único — reemplaza los
+# jobs de ejemplo de cada rama por tus procesos reales, ajustando los
+# "needs:" según el orden de cada rama. Se dispara solo manualmente.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  # -----------------------------------------------------------------
+  # Job inicial: crea los dos documentos (uno por rama) como artifacts
+  # -----------------------------------------------------------------
+  iniciar:
+    name: "Iniciar documentos de ambas ramas"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear encabezados
+        run: |
+          mkdir -p docs
+          cat <<'EOF' > docs/mapa-procesos-rama-a.md
+          ## Rama A
+
+          EOF
+          cat <<'EOF' > docs/mapa-procesos-rama-b.md
+          ## Rama B
+
+          EOF
+      - name: Subir artifact rama A
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos-rama-a
+          path: docs/mapa-procesos-rama-a.md
+          overwrite: true
+      - name: Subir artifact rama B
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos-rama-b
+          path: docs/mapa-procesos-rama-b.md
+          overwrite: true
+
+  # -----------------------------------------------------------------
+  # Rama A — copia este bloque de job por cada proceso adicional de
+  # esta rama, encadenando con "needs:"
+  # -----------------------------------------------------------------
+  rama_a_proceso_1:
+    name: "Rama A - Proceso 1"
+    needs: iniciar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos-rama-a
+          path: docs/
+      - name: Agregar proceso
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos-rama-a.md
+          ### Proceso: <Nombre del proceso de la rama A>
+
+          - **Entradas:** <...>
+          - **Actividades:** <...>
+          - **Salidas:** <...>
+          - **Recursos:** <...>
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos-rama-a
+          path: docs/mapa-procesos-rama-a.md
+          overwrite: true
+
+  # -----------------------------------------------------------------
+  # Rama B — misma lógica, en paralelo con la rama A (ambas dependen
+  # solo de "iniciar", no una de la otra)
+  # -----------------------------------------------------------------
+  rama_b_proceso_1:
+    name: "Rama B - Proceso 1"
+    needs: iniciar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos-rama-b
+          path: docs/
+      - name: Agregar proceso
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos-rama-b.md
+          ### Proceso: <Nombre del proceso de la rama B>
+
+          - **Entradas:** <...>
+          - **Actividades:** <...>
+          - **Salidas:** <...>
+          - **Recursos:** <...>
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos-rama-b
+          path: docs/mapa-procesos-rama-b.md
+          overwrite: true
+
+  # -----------------------------------------------------------------
+  # Consolidación: se ejecuta cuando AMBAS ramas terminan (needs con
+  # los dos últimos jobs de cada rama). Descarga los dos archivos, los
+  # une en un solo documento final y recién ahí comitea/pushea.
+  # Cambia el "needs:" para que apunte a tus ÚLTIMOS jobs reales de
+  # cada rama.
+  # -----------------------------------------------------------------
+  consolidar:
+    name: "Consolidar y publicar"
+    needs: [rama_a_proceso_1, rama_b_proceso_1]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Descargar artifact rama A
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos-rama-a
+          path: docs/
+      - name: Descargar artifact rama B
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos-rama-b
+          path: docs/
+      - name: Unir ambas ramas en el documento final
+        run: |
+          cat <<'EOF' > docs/mapa-procesos.md
+          # Mapa de Procesos y Modelo de Ciclo de Vida
+
+          > Generado con el workflow paralelo: las ramas A y B se ejecutaron
+          > de forma simultánea y se consolidan aquí. La definición formal
+          > del modelo de ciclo de vida se documenta en la wiki, página
+          > `04b-Modelo-Ciclo-Vida`, no en este archivo.
+
+          EOF
+          cat docs/mapa-procesos-rama-a.md >> docs/mapa-procesos.md
+          cat docs/mapa-procesos-rama-b.md >> docs/mapa-procesos.md
+      - name: Commit y push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs(mapa-procesos): actualizar mapa de procesos (paralelo, ramas A y B consolidadas)"

@@ -1,0 +1,190 @@
+name: "Paso 3 — Mapa de Procesos (flujo único)"
+
+# Úsalo si tu modelo de ciclo de vida NO tiene procesos en paralelo
+# (secuencial, iterativo, incremental, cascada simple, etc.).
+# Si tu modelo sí tiene ramas en paralelo, usa en su lugar el workflow
+# "mapa-procesos-paralelo.yml".
+#
+# Cómo usarlo:
+# 1. Reemplaza el contenido de los jobs de ejemplo (requisitos, diseño,
+#    implementacion, testing) por los procesos reales que tu equipo
+#    seleccionó en el Paso 3. Puedes duplicar el bloque de un job tantas
+#    veces como procesos tengas, ajustando el "needs:" para reflejar el
+#    orden real de tu modelo de ciclo de vida.
+# 2. Ve a la pestaña "Actions" -> este workflow -> "Run workflow".
+#    Se dispara SOLO manualmente para no gastar minutos de CI de la
+#    organización en cada push.
+# 3. El resultado final queda en docs/mapa-procesos.md.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  # -----------------------------------------------------------------
+  # Job inicial: crea el documento y lo sube como artifact
+  # -----------------------------------------------------------------
+  iniciar:
+    name: "Iniciar documento"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Crear encabezado del documento
+        run: |
+          mkdir -p docs
+          cat <<'EOF' > docs/mapa-procesos.md
+          # Mapa de Procesos y Modelo de Ciclo de Vida
+
+          > Generado con el workflow de flujo único. La definición formal del
+          > modelo de ciclo de vida (justificación, orden, relación entre
+          > procesos) se documenta en la wiki, página `04b-Modelo-Ciclo-Vida`,
+          > no en este archivo.
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/mapa-procesos.md
+          overwrite: true
+
+  # -----------------------------------------------------------------
+  # Ejemplo de cascada simple: Requisitos -> Diseño -> Implementación
+  # -> Testing. Copia este bloque de job por cada proceso adicional que
+  # necesites, cambiando el nombre del job y el "needs:" para mantener
+  # el orden real de tu modelo.
+  # -----------------------------------------------------------------
+  requisitos:
+    name: "Proceso: Requisitos"
+    needs: iniciar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/
+      - name: Agregar proceso al documento
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos.md
+          ## Proceso: Requisitos
+
+          - **Entradas:** Modelo verbal extendido, necesidades de negocio e interesados
+          - **Actividades:** Elicitación, análisis y especificación de requisitos
+          - **Salidas:** Documento de especificación de requisitos
+          - **Recursos:** BABOK v3, entrevistas/supuestos del equipo
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/mapa-procesos.md
+          overwrite: true
+
+  diseno:
+    name: "Proceso: Diseño"
+    needs: requisitos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/
+      - name: Agregar proceso al documento
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos.md
+          ## Proceso: Diseño
+
+          - **Entradas:** Documento de especificación de requisitos
+          - **Actividades:** Definición de módulos, interfaces y decisiones de diseño
+          - **Salidas:** Vista arquitectónica del sistema
+          - **Recursos:** Requisitos funcionales/no funcionales priorizados
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/mapa-procesos.md
+          overwrite: true
+
+  implementacion:
+    name: "Proceso: Implementación"
+    needs: diseno
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/
+      - name: Agregar proceso al documento
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos.md
+          ## Proceso: Implementación
+
+          - **Entradas:** Vista arquitectónica del sistema
+          - **Actividades:** Construcción de los módulos definidos en el diseño
+          - **Salidas:** Componentes de software construidos
+          - **Recursos:** Estándares de codificación, entorno de desarrollo
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/mapa-procesos.md
+          overwrite: true
+
+  testing:
+    name: "Proceso: Testing"
+    needs: implementacion
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/
+      - name: Agregar proceso al documento
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos.md
+          ## Proceso: Testing
+
+          - **Entradas:** Componentes de software construidos
+          - **Actividades:** Diseño y ejecución de pruebas, registro de defectos
+          - **Salidas:** Reporte de pruebas, defectos identificados
+          - **Recursos:** Plan de pruebas, casos de prueba
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/mapa-procesos.md
+          overwrite: true
+
+  # -----------------------------------------------------------------
+  # Job final: descarga el documento consolidado y lo comitea/pushea.
+  # Cambia el "needs:" para que apunte a tu ÚLTIMO proceso real.
+  # -----------------------------------------------------------------
+  publicar:
+    name: "Publicar documento final"
+    needs: testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Descargar artifact final
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos
+          path: docs/
+      - name: Commit y push
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs(mapa-procesos): actualizar mapa de procesos (flujo único)"
