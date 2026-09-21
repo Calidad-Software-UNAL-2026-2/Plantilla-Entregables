@@ -1,0 +1,95 @@
+name: "Actividad de cronograma"
+description: "Registrar una actividad del cronograma con su análisis PERT y ruta crítica (Paso 6)"
+title: "[Actividad] "
+labels: ["actividad"]
+body:
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Descripción de la actividad
+    validations:
+      required: true
+  - type: input
+    id: optimista
+    attributes:
+      label: Estimación optimista (días)
+      description: Valor numérico
+    validations:
+      required: true
+  - type: input
+    id: mas_probable
+    attributes:
+      label: Estimación más probable (días)
+      description: Valor numérico
+    validations:
+      required: true
+  - type: input
+    id: pesimista
+    attributes:
+      label: Estimación pesimista (días)
+      description: Valor numérico
+    validations:
+      required: true
+  - type: input
+    id: tiempo_esperado
+    attributes:
+      label: Tiempo esperado (días)
+      description: Valor numérico — calculado a mano o en Excel (PERT), se transcribe aquí
+    validations:
+      required: true
+  - type: input
+    id: desviacion_estandar
+    attributes:
+      label: Desviación estándar
+      description: Valor numérico
+    validations:
+      required: true
+  - type: input
+    id: inicio_mas_temprano
+    attributes:
+      label: Inicio más temprano (ES)
+      description: Valor numérico
+    validations:
+      required: true
+  - type: input
+    id: fin_mas_temprano
+    attributes:
+      label: Fin más temprano (EF)
+      description: Valor numérico
+    validations:
+      required: true
+  - type: input
+    id: inicio_mas_tardio
+    attributes:
+      label: Inicio más tardío (LS)
+      description: Valor numérico
+    validations:
+      required: true
+  - type: input
+    id: fin_mas_tardio
+    attributes:
+      label: Fin más tardío (LF)
+      description: Valor numérico
+    validations:
+      required: true
+  - type: input
+    id: holgura
+    attributes:
+      label: Holgura
+      description: Valor numérico
+    validations:
+      required: true
+  - type: dropdown
+    id: ruta_critica
+    attributes:
+      label: "¿Ruta crítica?"
+      options: ["Sí", "No"]
+    validations:
+      required: true
+
+# Nota: el hito (Milestone) se asigna con el campo nativo "Milestone" del
+# issue (barra lateral derecha), no como campo de este formulario — así
+# la vista "Roadmap" del Project puede agrupar por hito automáticamente.
+# Las fechas de inicio/fin en la línea de tiempo del Roadmap (Start date /
+# Target date) también se llenan directamente ahí, son campos nativos de
+# esa vista y no hace falta crearlos.

@@ -27,6 +27,9 @@ create_label "tipo:no-funcional"  "0E8A16" "Requisito no funcional"
 # Riesgos (Paso 5)
 create_label "riesgo"             "D93F0B" "Registro de riesgo del proyecto"
 
+# Actividades de cronograma (Paso 6)
+create_label "actividad"          "0052CC" "Actividad de cronograma (PERT / ruta crítica)"
+
 # Prioridad (opcional, útil para el backlog de requisitos)
 create_label "prioridad:alta"     "B60205" "Prioridad alta"
 create_label "prioridad:media"    "FBCA04" "Prioridad media"

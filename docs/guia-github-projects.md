@@ -38,45 +38,45 @@ Misma lógica que el paso anterior:
 
 ## 4. Cronograma — vista "Roadmap" (Paso 6)
 
-1. **+ New view** → nombre: **Roadmap**.
-2. Tipo de vista: **Roadmap** (GitHub la ofrece directamente en el
-   selector de tipo de vista).
-3. En la configuración de la vista, define qué campos usa como
-   **Start date** y **Target date** — estos son campos nativos que
-   crea automáticamente el tipo de vista Roadmap; edítalos por cada
-   actividad para que se dibuje la barra en la línea de tiempo.
-4. Agrupa la vista **por Milestone** (`Group by: Milestone`), así cada
-   hito del EDT queda como una sección separada del Roadmap.
+**Qué es una vista "Roadmap":** es un tipo de vista del Project que, en
+vez de mostrar los issues en filas de tabla, los dibuja como barras
+horizontales sobre una línea de tiempo — el efecto visual de un
+diagrama de Gantt. Es solo otra forma de mirar los mismos issues, no
+una herramienta aparte.
 
-### Campos personalizados a crear para las actividades
+**De dónde salen los datos:** todo el detalle de PERT (optimista, más
+probable, pesimista, tiempo esperado, desviación estándar), el análisis
+de ruta crítica (ES, EF, LS, LF, holgura) y la marca de "¿Ruta
+crítica?" **ya están dentro del cuerpo de cada issue**, gracias al
+formulario `Actividad de cronograma`. No hay que crear ni un solo
+campo personalizado en el Project para eso.
 
-Antes de llenar el Roadmap, crea estos campos personalizados en el
-Project (botón **+** al final de las columnas de cualquier vista tipo
-tabla → **New field**):
+Lo único que aporta la vista Roadmap son **dos campos nativos que trae
+por defecto** — *Start date* y *Target date* — que sirven únicamente
+para dibujar la barra en la línea de tiempo.
 
-| Campo | Tipo | Para qué |
-|---|---|---|
-| Estimación optimista (días) | Number | PERT |
-| Estimación más probable (días) | Number | PERT |
-| Estimación pesimista (días) | Number | PERT |
-| Tiempo esperado (días) | Number | PERT (calculado a mano o en Excel, se transcribe aquí) |
-| Desviación estándar | Number | PERT |
-| Inicio más temprano (ES) | Number o Date | Ruta crítica |
-| Fin más temprano (EF) | Number o Date | Ruta crítica |
-| Inicio más tardío (LS) | Number o Date | Ruta crítica |
-| Fin más tardío (LF) | Number o Date | Ruta crítica |
-| Holgura | Number | Ruta crítica |
-| ¿Ruta crítica? | Single select (Sí / No) | Resaltar visualmente las actividades críticas |
+### Pasos
 
-Estos campos aplican a todas las vistas del Project (Table, Board,
-Roadmap) porque son propiedades del ítem, no de la vista — solo se
-crean una vez.
+1. Crea un **Milestone** por cada hito del EDT (pestaña Issues →
+   Milestones → New milestone).
+2. Por cada actividad, crea un issue con la plantilla **`Actividad de
+   cronograma`** (ya trae el label `actividad` y todos los campos PERT
+   en el cuerpo).
+3. Asigna el issue al **Milestone** correspondiente (barra lateral
+   derecha del issue).
+4. Agrega el issue al Project.
+5. **+ New view** → nombre: **Roadmap** → tipo de vista: **Roadmap**.
+6. Agrupa la vista por Milestone: `Group by: Milestone` — así cada hito
+   queda como una sección separada de la línea de tiempo.
+7. Para cada actividad ya agregada, haz clic sobre su fila en la vista
+   Roadmap y define *Start date* y *Target date* — eso dibuja la barra.
 
-Cada **actividad de cronograma** se crea como un Issue normal (puede
-ser sin plantilla, o puedes crear una plantilla `Actividad de
-Cronograma` si tu equipo procesa muchas), se asigna a un **Milestone**
-(pestaña Issues → Milestones → New milestone, uno por hito del EDT), y
-se agrega al Project para llenar los campos de la tabla anterior.
+(Opcional) si además quieres una vista de tabla simple con todas las
+actividades y sus campos PERT visibles en columnas, crea una vista
+adicional **"Cronograma"** de tipo Table, filtrada por `label:actividad`
+— al ser un formulario de issue, GitHub no convierte automáticamente
+esos campos en columnas de tabla, pero puedes abrir cada issue desde
+ahí para consultarlos.
 
 ## 5. Lo que NO va en el Project
 
