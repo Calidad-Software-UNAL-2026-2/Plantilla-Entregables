@@ -1,10 +1,25 @@
 # Mapa de Procesos y Modelo de Ciclo de Vida
 
-> Este archivo se genera/sobreescribe automáticamente al ejecutar uno de
-> los workflows del Paso 3 (pestaña Actions -> "Paso 3 — Mapa de
-> Procesos (flujo único)" o "Paso 3 — Mapa de Procesos (paralelo)" ->
-> "Run workflow"). Usa solo UNO de los dos, según el modelo de ciclo de
-> vida de tu equipo.
->
-> No lo edites a mano: tus cambios se perderán en la siguiente ejecución.
-> Edita el workflow correspondiente en su lugar.
+> Generado con el workflow paralelo: las ramas A y B se ejecutaron
+> de forma simultánea y se consolidan aquí. La definición formal
+> del modelo de ciclo de vida se documenta en la wiki, página
+> `04b-Modelo-Ciclo-Vida`, no en este archivo.
+
+## Rama A
+
+### Proceso: <Nombre del proceso de la rama A>
+
+- **Entradas:** <...>
+- **Actividades:** <...>
+- **Salidas:** <...>
+- **Recursos:** <...>
+
+## Rama B
+
+### Proceso: <Nombre del proceso de la rama B>
+
+- **Entradas:** <...>
+- **Actividades:** <...>
+- **Salidas:** <...>
+- **Recursos:** <...>
+
