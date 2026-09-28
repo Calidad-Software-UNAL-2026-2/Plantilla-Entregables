@@ -1,6 +1,6 @@
 # Paso 2 — Tailoring normativo del proceso de requisitos
 
-> **Tipo de documento:** material de referencia del curso. Muestra, con un caso ilustrativo, cómo se aplica y se adapta (*tailoring*) la normativa al proceso de requisitos iniciales. Úselo como modelo para sus propios ejercicios de *tailoring* de los Pasos 5, 6 y 7.
+> **Tipo de documento:** material de referencia del curso. Muestra, con un caso ilustrativo, cómo se espera que se aplique y se adapte (*tailoring*) la normativa al proceso de requisitos iniciales. Puede usarlo como modelo para sus propios ejercicios de *tailoring* de los Pasos 5, 6 y 7.
 
 ---
 
@@ -17,11 +17,11 @@ Este documento describe cómo se lleva a cabo, bajo criterios normativos, el pro
 | Página / artefacto | Qué contiene | Relación con este documento |
 |---|---|---|
 | [[01-Extension-Modelo-Verbal]] | Extensión del modelo verbal | Insumo principal de la elicitación |
-| [[02a-Actores]] | Actores y roles | Resultado de la identificación de interesados |
-| [[02b-Necesidades-Negocio]] | Necesidades del negocio | Requisitos de negocio (BABOK) |
-| [[02c-Necesidades-Interesados]] | Necesidades de los interesados | Requisitos de los interesados (BABOK) |
+| [[02b-Actores]] | Actores y roles | Resultado de la identificación de interesados |
+| [[02c-Necesidades-Negocio]] | Necesidades del negocio | Requisitos de negocio (BABOK) |
+| [[02d-Necesidades-Interesados]] | Necesidades de los interesados | Requisitos de los interesados (BABOK) |
 | Issues + vista **Registro de Requisitos** | Requisitos funcionales y no funcionales | Requisitos de solución (BABOK) |
-| [[02d-Requisitos-Interfaz]] | Interacciones con otros sistemas | Requisitos de interfaz (CMMI SP 2.3) |
+| [[02e-Requisitos-Interfaz]] | Interacciones con otros sistemas | Requisitos de interfaz (CMMI SP 2.3) |
 | [[03-Mapa-Procesos-Caracterizacion]] | Mapa de procesos | Ubica este proceso dentro del conjunto de procesos del proyecto |
 
 ---
