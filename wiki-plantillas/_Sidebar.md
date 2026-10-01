@@ -9,8 +9,9 @@
   - [[02d-Necesidades-Interesados]]
   - [[02e-Requisitos-Interfaz]]
 - Paso 4:
-  - [[04a-Declaracion-Alcance]]
-  - [[04b-Modelo-Ciclo-Vida]]
+  - [[04a-Tailoring-Normativo-Planificacion-Proyecto]]
+  - [[04b-Declaracion-Alcance]]
+  - [[04c-Modelo-Ciclo-Vida]]
 - Paso 5: [[05-Intro-Gestion-Riesgos]]
 - Paso 6:
   - [[06-Intro-Estimacion]]
