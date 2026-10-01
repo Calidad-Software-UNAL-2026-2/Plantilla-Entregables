@@ -8,6 +8,7 @@
   - [[02c-Necesidades-Negocio]]
   - [[02d-Necesidades-Interesados]]
   - [[02e-Requisitos-Interfaz]]
+- Paso 3: [[03-Mapa-Procesos-Caracterizacion]]
 - Paso 4:
   - [[04a-Tailoring-Normativo-Planificacion-Proyecto]]
   - [[04b-Declaracion-Alcance]]
@@ -16,7 +17,10 @@
 - Paso 6:
   - [[06-Intro-Estimacion]]
   - [[06-Presupuesto-Curva-S]]
-- Paso 7: [[07-Aplicacion-Normativa]]
+- Paso 7:
+  - [[07a-Aplicacion-Normativa]]
+  - [[07b-Molde-Caracterizacion-Proceso]]
+  - _(agregar aquí cada proceso adicional duplicado: 07c, 07d, ...)_
 - Paso 8:
   - [[08a-PMP]]
   - [[08b-Contrato]]
