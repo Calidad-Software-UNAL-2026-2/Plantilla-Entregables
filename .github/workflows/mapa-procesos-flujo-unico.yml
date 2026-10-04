@@ -26,6 +26,7 @@ permissions:
 # Fuerza el uso de la v24 temporalmente.
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  
 jobs:
   # -----------------------------------------------------------------
   # Job inicial: crea el documento y lo sube como artifact
