@@ -1,13 +1,3 @@
-# Mapa de Procesos y Modelo de Ciclo de Vida
-
-> Generado con el workflow paralelo: la rama de Hardware/Firmware
-> (3 procesos) y la rama de Software/Backend (2 procesos) se
-> ejecutaron de forma simultánea y se consolidan aquí. Que una
-> rama tenga más procesos que la otra no impide que se unan al
-> final. La definición formal del modelo de ciclo de vida se
-> documenta en la wiki, página `04c-Modelo-Ciclo-Vida`, no en
-> este archivo.
-
 ## Rama Hardware / Firmware
 
 ### Proceso: Diseño de hardware y selección de componentes
@@ -30,20 +20,4 @@
 - **Actividades:** Pruebas de banco (consumo eléctrico, rango de sensado, estabilidad de la comunicación), ajustes de calibración
 - **Salidas:** Reporte de pruebas de hardware; lista de defectos y ajustes de calibración
 - **Recursos:** Banco de pruebas, multímetro/osciloscopio, dispositivo prototipo
-
-## Rama Software / Backend
-
-### Proceso: Desarrollo de API y backend de ingesta de datos
-
-- **Entradas:** Protocolo de comunicación acordado con el equipo de Hardware (decisión de diseño temprana, no una dependencia de CI); requisitos de interfaz (Paso 2)
-- **Actividades:** Diseño del endpoint de ingesta, implementación del backend, definición del esquema de la base de datos de telemetría
-- **Salidas:** API de ingesta desplegada en entorno de pruebas; esquema de base de datos
-- **Recursos:** Framework backend elegido por el equipo, base de datos de series de tiempo, entorno de pruebas
-
-### Proceso: Desarrollo del dashboard de monitoreo
-
-- **Entradas:** API de ingesta (proceso anterior); requisitos funcionales de visualización (Paso 2)
-- **Actividades:** Diseño de las vistas de monitoreo, consumo de la API, despliegue del dashboard
-- **Salidas:** Dashboard funcional en entorno de pruebas
-- **Recursos:** Framework frontend elegido por el equipo, librería de gráficos
 
