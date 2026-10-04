@@ -5,14 +5,33 @@ name: "Paso 3 — Mapa de Procesos (paralelo)"
 # Si tu modelo es de flujo único, usa en su lugar
 # "mapa-procesos-flujo-unico.yml".
 #
-# Cada rama en paralelo escribe en SU PROPIO archivo (rama-a / rama-b)
-# para evitar que dos jobs compitan por escribir el mismo archivo al
-# mismo tiempo (condición de carrera). Al final, un job de consolidación
-# une ambos archivos en un solo documento.
+# EJEMPLO DE ESTE WORKFLOW: un proyecto IoT típico tiene una rama de
+# Hardware/Firmware y una rama de Software/Backend que un equipo
+# desarrolla de forma simultánea, no secuencial — nadie espera a que el
+# firmware esté terminado para empezar el backend. Por eso es un caso
+# natural de procesos en paralelo, a diferencia del flujo único (donde
+# un proceso sí depende de que el anterior termine).
 #
-# Cómo usarlo: igual que el workflow de flujo único — reemplaza los
-# jobs de ejemplo de cada rama por tus procesos reales, ajustando los
-# "needs:" según el orden de cada rama. Se dispara solo manualmente.
+# Fíjate que las dos ramas de este ejemplo NO tienen el mismo largo (la
+# de Hardware tiene 3 procesos, la de Software tiene 2) — eso es
+# intencional: las ramas en paralelo no tienen por qué tardar lo mismo
+# ni tener la misma cantidad de procesos, solo deben unirse al final o en algún punto.
+#
+# NOTA CONCEPTUAL: que dos jobs corran "en paralelo" en este workflow
+# significa que no hay una condición de carrera entre ellos sobre un
+# mismo archivo — no significa que los equipos de Hardware y Software no
+# se coordinen en la vida real. Por ejemplo, el proceso de Software que
+# monta la API de ingesta (rama Software, proceso 1) necesita saber qué
+# protocolo de comunicación usa el firmware (rama Hardware, proceso 2)
+# para construir el endpoint correcto — esa es una decisión de diseño
+# que el equipo acuerda al principio del proyecto, no una dependencia de
+# CI entre los dos jobs. Por eso ambas ramas dependen solo de "iniciar",
+# y no una de la otra.
+#
+# Cómo adaptarlo a tu propio modelo: reemplaza los procesos de ejemplo
+# de cada rama por los tuyos, renombra los artifacts/archivos si tus
+# ramas no son "hardware" y "software", y ajusta los "needs:" según el
+# orden real de cada rama. Se dispara solo manualmente.
 
 on:
   workflow_dispatch:
@@ -31,130 +50,215 @@ jobs:
       - name: Crear encabezados
         run: |
           mkdir -p docs
-          cat <<'EOF' > docs/mapa-procesos-rama-a.md
-          ## Rama A
+          cat <<'EOF' > docs/mapa-procesos-rama-hardware.md
+          ## Rama Hardware / Firmware
 
           EOF
-          cat <<'EOF' > docs/mapa-procesos-rama-b.md
-          ## Rama B
+          cat <<'EOF' > docs/mapa-procesos-rama-software.md
+          ## Rama Software / Backend
 
           EOF
-      - name: Subir artifact rama A
+      - name: Subir artifact rama Hardware
         uses: actions/upload-artifact@v4
         with:
-          name: mapa-procesos-rama-a
-          path: docs/mapa-procesos-rama-a.md
+          name: mapa-procesos-rama-hardware
+          path: docs/mapa-procesos-rama-hardware.md
           overwrite: true
-      - name: Subir artifact rama B
+      - name: Subir artifact rama Software
         uses: actions/upload-artifact@v4
         with:
-          name: mapa-procesos-rama-b
-          path: docs/mapa-procesos-rama-b.md
+          name: mapa-procesos-rama-software
+          path: docs/mapa-procesos-rama-software.md
           overwrite: true
 
-  # -----------------------------------------------------------------
-  # Rama A — copia este bloque de job por cada proceso adicional de
-  # esta rama, encadenando con "needs:"
-  # -----------------------------------------------------------------
-  rama_a_proceso_1:
-    name: "Rama A - Proceso 1"
+  # ===================================================================
+  # RAMA HARDWARE / FIRMWARE — 3 procesos encadenados con "needs:"
+  # ===================================================================
+  rama_hardware_diseno:
+    name: "Hardware - Proceso 1: Diseño de hardware"
     needs: iniciar
     runs-on: ubuntu-latest
     steps:
       - name: Descargar artifact
         uses: actions/download-artifact@v4
         with:
-          name: mapa-procesos-rama-a
+          name: mapa-procesos-rama-hardware
           path: docs/
       - name: Agregar proceso
         run: |
-          cat <<'EOF' >> docs/mapa-procesos-rama-a.md
-          ### Proceso: <Nombre del proceso de la rama A>
+          cat <<'EOF' >> docs/mapa-procesos-rama-hardware.md
+          ### Proceso: Diseño de hardware y selección de componentes
 
-          - **Entradas:** <...>
-          - **Actividades:** <...>
-          - **Salidas:** <...>
-          - **Recursos:** <...>
+          - **Entradas:** Requisitos funcionales de sensado/actuación; restricciones de consumo energético y costo
+          - **Actividades:** Selección de sensores y actuadores, diseño del esquemático y la PCB, definición de la arquitectura eléctrica del dispositivo
+          - **Salidas:** Esquemático aprobado, lista de materiales (BOM), prototipo de placa
+          - **Recursos:** Software de diseño electrónico (KiCad/Altium), catálogo de componentes, datasheets de fabricantes
 
           EOF
       - name: Subir artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mapa-procesos-rama-a
-          path: docs/mapa-procesos-rama-a.md
+          name: mapa-procesos-rama-hardware
+          path: docs/mapa-procesos-rama-hardware.md
           overwrite: true
 
-  # -----------------------------------------------------------------
-  # Rama B — misma lógica, en paralelo con la rama A (ambas dependen
-  # solo de "iniciar", no una de la otra)
-  # -----------------------------------------------------------------
-  rama_b_proceso_1:
-    name: "Rama B - Proceso 1"
+  rama_hardware_firmware:
+    name: "Hardware - Proceso 2: Desarrollo de firmware"
+    needs: rama_hardware_diseno
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos-rama-hardware
+          path: docs/
+      - name: Agregar proceso
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos-rama-hardware.md
+          ### Proceso: Desarrollo de firmware
+
+          - **Entradas:** Esquemático y BOM aprobados (proceso anterior); requisitos funcionales de sensado/actuación
+          - **Actividades:** Programación del microcontrolador, implementación de drivers de sensores, integración del protocolo de comunicación (LoRaWAN)
+          - **Salidas:** Firmware compilado y versionado; documentación de pines y del protocolo usado
+          - **Recursos:** IDE de firmware (Arduino), kit de desarrollo del microcontrolador, especificación del protocolo elegido
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos-rama-hardware
+          path: docs/mapa-procesos-rama-hardware.md
+          overwrite: true
+
+  rama_hardware_pruebas:
+    name: "Hardware - Proceso 3: Pruebas de integración hardware"
+    needs: rama_hardware_firmware
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos-rama-hardware
+          path: docs/
+      - name: Agregar proceso
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos-rama-hardware.md
+          ### Proceso: Pruebas de integración hardware
+
+          - **Entradas:** Prototipo de placa (proceso 1); firmware compilado (proceso 2)
+          - **Actividades:** Pruebas de banco (consumo eléctrico, rango de sensado, estabilidad de la comunicación), ajustes de calibración
+          - **Salidas:** Reporte de pruebas de hardware; lista de defectos y ajustes de calibración
+          - **Recursos:** Banco de pruebas, multímetro/osciloscopio, dispositivo prototipo
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos-rama-hardware
+          path: docs/mapa-procesos-rama-hardware.md
+          overwrite: true
+
+  # ===================================================================
+  # RAMA SOFTWARE / BACKEND — 2 procesos encadenados con "needs:"
+  # (rama más corta: no necesita tener el mismo número de procesos
+  # que la rama Hardware para poder unirse con ella al final)
+  # ===================================================================
+  rama_software_api:
+    name: "Software - Proceso 1: API y backend de ingesta"
     needs: iniciar
     runs-on: ubuntu-latest
     steps:
       - name: Descargar artifact
         uses: actions/download-artifact@v4
         with:
-          name: mapa-procesos-rama-b
+          name: mapa-procesos-rama-software
           path: docs/
       - name: Agregar proceso
         run: |
-          cat <<'EOF' >> docs/mapa-procesos-rama-b.md
-          ### Proceso: <Nombre del proceso de la rama B>
+          cat <<'EOF' >> docs/mapa-procesos-rama-software.md
+          ### Proceso: Desarrollo de API y backend de ingesta de datos
 
-          - **Entradas:** <...>
-          - **Actividades:** <...>
-          - **Salidas:** <...>
-          - **Recursos:** <...>
+          - **Entradas:** Protocolo de comunicación acordado con el equipo de Hardware (decisión de diseño temprana, no una dependencia de CI); requisitos de interfaz (Paso 2)
+          - **Actividades:** Diseño del endpoint de ingesta, implementación del backend, definición del esquema de la base de datos de telemetría
+          - **Salidas:** API de ingesta desplegada en entorno de pruebas; esquema de base de datos
+          - **Recursos:** Framework backend elegido por el equipo, base de datos de series de tiempo, entorno de pruebas
 
           EOF
       - name: Subir artifact
         uses: actions/upload-artifact@v4
         with:
-          name: mapa-procesos-rama-b
-          path: docs/mapa-procesos-rama-b.md
+          name: mapa-procesos-rama-software
+          path: docs/mapa-procesos-rama-software.md
+          overwrite: true
+
+  rama_software_dashboard:
+    name: "Software - Proceso 2: Dashboard de monitoreo"
+    needs: rama_software_api
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mapa-procesos-rama-software
+          path: docs/
+      - name: Agregar proceso
+        run: |
+          cat <<'EOF' >> docs/mapa-procesos-rama-software.md
+          ### Proceso: Desarrollo del dashboard de monitoreo
+
+          - **Entradas:** API de ingesta (proceso anterior); requisitos funcionales de visualización (Paso 2)
+          - **Actividades:** Diseño de las vistas de monitoreo, consumo de la API, despliegue del dashboard
+          - **Salidas:** Dashboard funcional en entorno de pruebas
+          - **Recursos:** Framework frontend elegido por el equipo, librería de gráficos
+
+          EOF
+      - name: Subir artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapa-procesos-rama-software
+          path: docs/mapa-procesos-rama-software.md
           overwrite: true
 
   # -----------------------------------------------------------------
-  # Consolidación: se ejecuta cuando AMBAS ramas terminan (needs con
-  # los dos últimos jobs de cada rama). Descarga los dos archivos, los
-  # une en un solo documento final y recién ahí comitea/pushea.
-  # Cambia el "needs:" para que apunte a tus ÚLTIMOS jobs reales de
-  # cada rama.
+  # Consolidación: se ejecuta cuando AMBAS ramas terminan, aunque
+  # tengan distinto número de procesos (needs con el ÚLTIMO job de
+  # cada rama, sin importar que una tenga 3 y la otra 2).
   # -----------------------------------------------------------------
   consolidar:
     name: "Consolidar y publicar"
-    needs: [rama_a_proceso_1, rama_b_proceso_1]
+    needs: [rama_hardware_pruebas, rama_software_dashboard]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Descargar artifact rama A
+      - name: Descargar artifact rama Hardware
         uses: actions/download-artifact@v4
         with:
-          name: mapa-procesos-rama-a
+          name: mapa-procesos-rama-hardware
           path: docs/
-      - name: Descargar artifact rama B
+      - name: Descargar artifact rama Software
         uses: actions/download-artifact@v4
         with:
-          name: mapa-procesos-rama-b
+          name: mapa-procesos-rama-software
           path: docs/
       - name: Unir ambas ramas en el documento final
         run: |
           cat <<'EOF' > docs/mapa-procesos.md
           # Mapa de Procesos y Modelo de Ciclo de Vida
 
-          > Generado con el workflow paralelo: las ramas A y B se ejecutaron
-          > de forma simultánea y se consolidan aquí. La definición formal
-          > del modelo de ciclo de vida se documenta en la wiki, página
-          > `04b-Modelo-Ciclo-Vida`, no en este archivo.
+          > Generado con el workflow paralelo: la rama de Hardware/Firmware
+          > (3 procesos) y la rama de Software/Backend (2 procesos) se
+          > ejecutaron de forma simultánea y se consolidan aquí. Que una
+          > rama tenga más procesos que la otra no impide que se unan al
+          > final. La definición formal del modelo de ciclo de vida se
+          > documenta en la wiki, página `04c-Modelo-Ciclo-Vida`, no en
+          > este archivo.
 
           EOF
-          cat docs/mapa-procesos-rama-a.md >> docs/mapa-procesos.md
-          cat docs/mapa-procesos-rama-b.md >> docs/mapa-procesos.md
+          cat docs/mapa-procesos-rama-hardware.md >> docs/mapa-procesos.md
+          cat docs/mapa-procesos-rama-software.md >> docs/mapa-procesos.md
       - name: Commit y push
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "docs(mapa-procesos): actualizar mapa de procesos (paralelo, ramas A y B consolidadas)"
+          commit_message: "docs(mapa-procesos): actualizar mapa de procesos (paralelo, ramas Hardware y Software consolidadas)"
