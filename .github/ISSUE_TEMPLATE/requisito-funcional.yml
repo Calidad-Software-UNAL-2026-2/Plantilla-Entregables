@@ -1,27 +1,41 @@
 name: "Requisito funcional"
 description: "Registrar un requisito funcional derivado del modelo verbal (Paso 2, ítem 4)"
-title: "[RF] "
+title: "[RF-XX] "
 labels: ["tipo:funcional"]
 body:
-  - type: input
-    id: modulo
+  - type: markdown
     attributes:
-      label: Módulo / funcionalidad
-      description: Agrupa el requisito por módulo del sistema
-      placeholder: "Ej: Gestión de pedidos"
+      value: |
+        *Recuerda: Después de crear este issue, debes asignarle su "Parent issue" (el Módulo al que pertenece) en el panel derecho.*
+  - type: textarea
+    id: historia_usuario
+    attributes:
+      label: Historia de Usuario
+      description: Redacta el requisito funcional utilizando la estructura estándar.
+      placeholder: |
+        Como 
+        Quiero 
+        Para 
+        
+        Ejemplo:
+        Como cliente registrado, quiero filtrar los productos por rango de precio para encontrar opciones que se ajusten a mi presupuesto.
     validations:
       required: true
   - type: textarea
-    id: descripcion
+    id: criterios_aceptacion
     attributes:
-      label: Descripción del requisito
-      description: Redacta el requisito de forma clara y verificable
+      label: Criterios de Aceptación
+      description: Condiciones verificables que deben cumplirse para que el requisito se considere terminado. Preferiblemente usa el formato Dado/Cuando/Entonces.
+      placeholder: |
+        1. Dado que el usuario está en el catálogo, cuando ingresa un precio mínimo de $10 y máximo de $50, entonces solo se muestran productos en ese rango.
+        2. Dado que el usuario filtra por precios, cuando ingresa letras en lugar de números, entonces el sistema muestra un mensaje de error de validación.
     validations:
       required: true
   - type: textarea
     id: origen
     attributes:
-      label: Origen
-      description: ¿De qué necesidad de negocio/interesado o parte del modelo verbal se deriva?
+      label: Origen / Trazabilidad
+      description: ¿De qué necesidad de negocio, interesado o parte del modelo verbal (wiki) se deriva este requisito?
+      placeholder: "Ej: Se deriva de la Necesidad de Negocio N-02"
     validations:
       required: true
