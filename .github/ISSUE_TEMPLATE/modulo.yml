@@ -1,0 +1,28 @@
+name: "Módulo del sistema"
+description: "Crear un nuevo módulo para agrupar los requisitos funcionales y no funcionales."
+title: "[MOD-XX] "
+labels: ["tipo:modulo"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        *Nota para el estudiante: Este issue actuará como el "Padre" de varios requisitos. Una vez creado, recuerda enlazar los issues de requisitos funcionales y no funcionales a este módulo.*
+  - type: textarea
+    id: descripcion-modulo
+    attributes:
+      label: Descripción y alcance del módulo
+      description: Describe brevemente qué problema resuelve este módulo y cuál es su límite/alcance dentro del sistema.
+      placeholder: |
+        Este módulo se encarga de gestionar todo el flujo de pagos, desde la pasarela hasta la facturación electrónica. No incluye la gestión del carrito de compras.
+    validations:
+      required: true
+  - type: textarea
+    id: tasklist
+    attributes:
+      label: Requisitos del módulo
+      description: Usa este espacio para listar los requisitos asociados a este módulo usando checkboxes.
+      value: |
+        - [ ] # (ID del Requisito Funcional)
+        - [ ] # (ID del Requisito No Funcional)
+    validations:
+      required: false
