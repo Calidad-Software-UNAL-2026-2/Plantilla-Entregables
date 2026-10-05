@@ -13,10 +13,10 @@
   - [[04a-Tailoring-Normativo-Planificacion-Proyecto]]
   - [[04b-Declaracion-Alcance]]
   - [[04c-Modelo-Ciclo-Vida]]
-- Paso 5: [[05-Intro-Gestion-Riesgos]]
+- Paso 5: [[05a-Intro-Gestion-Riesgos]]
 - Paso 6:
-  - [[06-Intro-Estimacion]]
-  - [[06-Presupuesto-Curva-S]]
+  - [[06a-Intro-Estimacion]]
+  - [[06b-Presupuesto-Curva-S]]
 - Paso 7:
   - [[07a-Aplicacion-Normativa]]
   - [[07b-Molde-Caracterizacion-Proceso]]
