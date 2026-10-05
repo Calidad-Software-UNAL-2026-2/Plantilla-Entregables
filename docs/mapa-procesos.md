@@ -1,12 +1,18 @@
 # Mapa de Procesos y Modelo de Ciclo de Vida
 
-> Generado con el workflow paralelo: la rama de Hardware/Firmware
-> (3 procesos) y la rama de Software/Backend (2 procesos) se
-> ejecutaron de forma simultánea y se consolidan aquí. Que una
-> rama tenga más procesos que la otra no impide que se unan al
-> final. La definición formal del modelo de ciclo de vida se
-> documenta en la wiki, página `04c-Modelo-Ciclo-Vida`, no en
-> este archivo.
+> Generado con el workflow paralelo: Requisitos se ejecuta primero;
+> luego la rama de Hardware/Firmware (3 procesos) y la rama de
+> Software/Backend (2 procesos) se ejecutan de forma simultánea; al
+> final, Integración y despliegue une ambas ramas a este documento.
+> La definición formal del modelo de ciclo de vida se documenta en
+> la wiki, página `04c-Modelo-Ciclo-Vida`, no en este archivo.
+
+## Proceso: Requisitos
+
+- **Entradas:** Modelo verbal extendido, necesidades de negocio e interesados
+- **Actividades:** Elicitación, análisis y especificación de requisitos, tanto para el dispositivo (Hardware) como para la plataforma (Software)
+- **Salidas:** Documento de especificación de requisitos
+- **Recursos:** BABOK v3, entrevistas/supuestos del equipo
 
 ## Rama Hardware / Firmware
 
@@ -46,4 +52,11 @@
 - **Actividades:** Diseño de las vistas de monitoreo, consumo de la API, despliegue del dashboard
 - **Salidas:** Dashboard funcional en entorno de pruebas
 - **Recursos:** Framework frontend elegido por el equipo, librería de gráficos
+
+## Proceso: Integración y despliegue
+
+- **Entradas:** Firmware probado y reporte de pruebas de hardware (rama Hardware); dashboard funcional en entorno de pruebas (rama Software)
+- **Actividades:** Conexión del dispositivo físico al backend desplegado, validación end-to-end del flujo de datos (sensor → firmware → API → dashboard), ajustes finales de configuración
+- **Salidas:** Sistema IoT integrado y validado end-to-end
+- **Recursos:** Dispositivo prototipo, entorno de backend/dashboard desplegado, plan de pruebas de integración
 
