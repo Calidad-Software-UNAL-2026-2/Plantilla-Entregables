@@ -8,7 +8,7 @@
   - [[02c-Necesidades-Negocio]]
   - [[02d-Necesidades-Interesados]]
   - [[02e-Requisitos-Interfaz]]
-- Paso 3: [[03-Mapa-Procesos-Caracterizacion]]
+- Paso 3: [[03a-Mapa-Procesos-Caracterizacion]]
 - Paso 4:
   - [[04a-Tailoring-Normativo-Planificacion-Proyecto]]
   - [[04b-Declaracion-Alcance]]
