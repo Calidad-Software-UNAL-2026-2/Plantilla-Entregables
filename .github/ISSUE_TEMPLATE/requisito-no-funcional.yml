@@ -1,26 +1,49 @@
 name: "Requisito no funcional"
 description: "Registrar un requisito no funcional derivado del modelo verbal (Paso 2, ítem 4)"
-title: "[RNF] "
+title: "[RNF-XX] "
 labels: ["tipo:no-funcional"]
 body:
-  - type: input
+  - type: markdown
+    attributes:
+      value: |
+        *Recuerda: Si este RNF afecta a todo el sistema, asígnalo al módulo [MOD-00] Transversal. Si es específico, asígnalo a su módulo correspondiente.*
+  - type: dropdown
     id: atributo
     attributes:
-      label: Atributo de calidad
-      description: "Ej: rendimiento, seguridad, usabilidad, disponibilidad"
+      label: Característica de Calidad
+      description: Selecciona el atributo principal que aborda este requisito.
+      options:
+        - Rendimiento / Eficiencia
+        - Seguridad
+        - Usabilidad
+        - Disponibilidad / Fiabilidad
+        - Mantenibilidad
+        - Portabilidad
+        - Compatibilidad
     validations:
       required: true
   - type: textarea
-    id: descripcion
+    id: enunciado
     attributes:
-      label: Descripción del requisito
-      description: Redacta el requisito de forma clara y verificable
+      label: Enunciado del Requisito
+      description: Describe el comportamiento o restricción que el sistema debe cumplir.
+      placeholder: |
+        Ejemplo: El sistema debe procesar las transacciones de pago utilizando encriptación asimétrica para proteger los datos financieros.
+    validations:
+      required: true
+  - type: input
+    id: metrica
+    attributes:
+      label: Métrica y Umbral de Aceptación
+      description: ¿Cómo mediremos objetivamente que este requisito se cumple? Debe ser un número medible.
+      placeholder: "Ej: Tiempo de respuesta < 2.5 segundos en el 95% de las peticiones bajo carga de 1000 usuarios concurrentes."
     validations:
       required: true
   - type: textarea
     id: origen
     attributes:
-      label: Origen
-      description: ¿De qué necesidad de negocio/interesado o parte del modelo verbal se deriva?
+      label: Origen / Trazabilidad
+      description: ¿De qué normativa, restricción técnica o necesidad se deriva?
+      placeholder: "Ej: Ley de Protección de Datos (Habeas Data) o Política de Seguridad Interna."
     validations:
       required: true
