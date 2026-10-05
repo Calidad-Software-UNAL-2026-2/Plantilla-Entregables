@@ -15,7 +15,7 @@ Este documento describe cómo se lleva a cabo, bajo criterios normativos, el pro
 | Página / artefacto | Qué contiene | Relación con este documento |
 |---|---|---|
 | [[02a-Tailoring-Normativo-Requisitos]] | Tailoring del proceso de requisitos | Insumo: línea base de requisitos aprobada |
-| [[03-Mapa-Procesos-Caracterizacion]] | Mapa de procesos (estratégicos, de apoyo y clave) | Insumo directo para la selección del modelo de ciclo de vida |
+| [[03a-Mapa-Procesos-Caracterizacion]] | Mapa de procesos (estratégicos, de apoyo y clave) | Insumo directo para la selección del modelo de ciclo de vida |
 | [[04b-Declaracion-Alcance]] | Alcance, entregables y EDT/WBS | Resultado de este proceso |
 | [[04c-Modelo-Ciclo-Vida]] | Modelo de ciclo de vida seleccionado y justificado | Resultado de este proceso |
 

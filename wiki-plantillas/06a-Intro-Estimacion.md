@@ -37,4 +37,4 @@ resultados finales de ambas técnicas._
 
 > El cronograma (hitos, actividades, PERT, ruta crítica) se gestiona en
 > el Project del equipo, vista "Roadmap". El presupuesto y la curva S
-> se documentan en [[06-Presupuesto-Curva-S]].
+> se documentan en [[06b-Presupuesto-Curva-S]].

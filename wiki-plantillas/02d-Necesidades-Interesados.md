@@ -8,6 +8,7 @@ cada actor para que se cumpla la necesidad de negocio._
 | | | |
 
 > Los requisitos funcionales y no funcionales (desglose de estas
-> necesidades) se gestionan como **Issues** con label `tipo:funcional` /
-> `tipo:no-funcional`, y se listan en la vista "Registro de Requisitos"
-> del GitHub Project — no en esta página.
+> necesidades) se gestionan como **Issues**: cada módulo es un issue padre
+> (`tipo:modulo`) y sus requisitos son sub-issues (`tipo:funcional` /
+> `tipo:no-funcional`). Se listan, agrupados por módulo, en la vista
+> "Registro de Requisitos" del GitHub Project — no en esta página.

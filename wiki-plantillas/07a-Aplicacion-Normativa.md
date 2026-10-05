@@ -2,7 +2,7 @@
 
 ## 1. Identificación de procesos involucrados
 
-Identifique qué procesos del ciclo de vida del proyecto (caracterizados en [[03-Mapa-Procesos-Caracterizacion]]) están involucrados en la gestión de calidad, riesgos y ruta crítica. Complete las tres tablas siguientes.
+Identifique qué procesos del ciclo de vida del proyecto (caracterizados en [[03a-Mapa-Procesos-Caracterizacion]]) están involucrados en la gestión de calidad, riesgos y ruta crítica. Complete las tres tablas siguientes.
 
 ### 1.1 Procesos vs. requisitos de calidad (no funcionales)
 
@@ -30,4 +30,4 @@ A partir de las tres tablas anteriores, seleccione un mínimo de tres (3) proces
 |---|---|---|
 | | | |
 
-> Por cada proceso de esta tabla, cree una página de caracterización a partir del molde [[07b-Molde-Caracterizacion-Proceso]] — duplíquela, renómbrela (por ejemplo `07c-Caracterizacion-<Nombre-del-Proceso>`, `07d-...`, y así sucesivamente) y enlácela desde esta tabla y desde `_Sidebar.md`.
+> Por cada proceso de esta tabla, cree una página de caracterización a partir del molde [[07b-Molde-Caracterizacion-Proceso]] — cree una página nueva (Wiki → New Page) con el nombre `07c-Proceso-<Nombre>` (luego `07d-Proceso-<Nombre>`, y así sucesivamente) y copie en ella el contenido del molde y enlácela desde esta tabla y desde `_Sidebar.md`.

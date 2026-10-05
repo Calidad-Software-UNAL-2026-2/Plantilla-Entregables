@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # Crea la taxonomía de labels del proyecto usando GitHub CLI (`gh`).
-# Requiere: gh instalado y autenticado (`gh auth login`), y ejecutarse
-# dentro de una copia local del repo del equipo (o pasar --repo owner/repo).
+# Requiere: gh instalado y autenticado (`gh auth login`).
 #
 # Uso:
 #   ./scripts/setup-labels.sh                # repo actual (cwd)
 #   ./scripts/setup-labels.sh owner/repo     # repo explícito
+#
+# Es idempotente: se puede ejecutar varias veces (--force actualiza).
 
 set -euo pipefail
 
@@ -16,40 +17,26 @@ fi
 
 create_label () {
   local name="$1" color="$2" desc="$3"
-  # --force actualiza el label si ya existe (color/descripción)
-  gh label create "$name" --color "$color" --description "$desc" --force "${REPO_FLAG[@]}"
+  gh label create "$name" --color "$color" --description "$desc" --force "${REPO_FLAG[@]}" >/dev/null
+  echo "  ok: $name"
 }
 
-# ==========================================
-# 1. TIPO DE REQUISITO (Paso 2, ítem 4)
-# ==========================================
-# Azul (0075CA): Estándar en GitHub para "enhancement/features". Representa creación y funcionalidad.
+# Los repos nuevos traen labels por defecto de GitHub (bug, enhancement...)
+# que no aplican a este trabajo y solo confunden. Se eliminan.
+for l in "bug" "documentation" "duplicate" "enhancement" "good first issue" "help wanted" "invalid" "question" "wontfix"; do
+  gh label delete "$l" --yes "${REPO_FLAG[@]}" >/dev/null 2>&1 || true
+done
+
+# 1. TIPO DE ISSUE (Paso 2, ítem 4)
 create_label "tipo:funcional"     "0075CA" "Requisito funcional"
-
-# Morado (5319E7): Color profundo asociado a estructura, arquitectura y restricciones del sistema.
 create_label "tipo:no-funcional"  "5319E7" "Requisito no funcional"
+create_label "tipo:modulo"        "006B75" "Módulo del sistema (issue padre de sus requisitos)"
 
-
-# ==========================================
-# 2. MÓDULOS DEL SISTEMA (Agrupadores)
-# ==========================================
-# Verde azulado / Teal (006B75): Color estructural que agrupa sin alarmar. 
-# Destaca visualmente en los tableros Kanban para identificar rápidamente a qué épica pertenece el issue.
-create_label "modulo:transversal" "006B75" "Requisitos globales que atraviesan todo el sistema"
-create_label "modulo"     "006B75" "Módulo funcional"
-
-
-# ==========================================
-# 3. RIESGOS (Paso 5)
-# ==========================================
-# Rojo oscuro (B60205): Universalmente asociado a peligro, severidad y atención inmediata requerida.
+# 2. RIESGOS (Paso 5)
 create_label "riesgo"             "B60205" "Registro de riesgo del proyecto"
 
-
-# ==========================================
-# 4. ACTIVIDADES DE CRONOGRAMA (Paso 6)
-# ==========================================
-# Amarillo (FBCA04): Representa "trabajo en progreso", construcción, maquinaria y tareas operativas de tiempo.
+# 3. CRONOGRAMA (Paso 6)
 create_label "actividad"          "FBCA04" "Actividad de cronograma (PERT / ruta crítica)"
+create_label "ruta-critica"       "D93F0B" "Actividad que pertenece a la ruta crítica (holgura = 0)"
 
-echo "✅ Labels creados y actualizados correctamente con la nueva paleta de colores."
+echo "Labels listos."

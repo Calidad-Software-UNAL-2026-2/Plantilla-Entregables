@@ -1,6 +1,6 @@
 # Paso 7b — Molde de Caracterización de Proceso
 
-> **Tipo de documento:** plantilla a duplicar. Copie esta página una vez por cada proceso seleccionado en la tabla consolidada de [[07a-Aplicacion-Normativa]] — renómbrela (por ejemplo `07c-Caracterizacion-<Nombre-del-Proceso>`), complete cada sección para ese proceso específico, y enlácela desde la tabla de 07a y desde `_Sidebar.md`.
+> **Tipo de documento:** plantilla. **No se modifica esta página**: se deja intacta como referencia. Por cada proceso seleccionado en la tabla consolidada de [[07a-Aplicacion-Normativa]], cree una página nueva (Wiki → New Page) con el nombre `07c-Proceso-<Nombre>` (luego `07d-Proceso-<Nombre>`, `07e-...`), copie en ella el contenido de este molde, complételo para ese proceso específico, y enlácela desde la tabla de 07a y desde `_Sidebar.md`.
 
 ---
 

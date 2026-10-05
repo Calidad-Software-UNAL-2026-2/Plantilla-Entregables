@@ -20,7 +20,7 @@
 - Paso 7:
   - [[07a-Aplicacion-Normativa]]
   - [[07b-Molde-Caracterizacion-Proceso]]
-  - _(agregar aquí cada proceso adicional duplicado: 07c, 07d, ...)_
+  - _(agregar aquí cada proceso caracterizado: 07c-Proceso-Nombre, 07d-Proceso-Nombre, ... mínimo tres)_
 - Paso 8:
   - [[08a-PMP]]
   - [[08b-Contrato]]

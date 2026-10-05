@@ -22,7 +22,7 @@ Este documento describe cómo se lleva a cabo, bajo criterios normativos, el pro
 | [[02d-Necesidades-Interesados]] | Necesidades de los interesados | Requisitos de los interesados (BABOK) |
 | Issues + vista **Registro de Requisitos** | Requisitos funcionales y no funcionales | Requisitos de solución (BABOK) |
 | [[02e-Requisitos-Interfaz]] | Interacciones con otros sistemas | Requisitos de interfaz (CMMI SP 2.3) |
-| [[03-Mapa-Procesos-Caracterizacion]] | Mapa de procesos | Ubica este proceso dentro del conjunto de procesos del proyecto |
+| [[03a-Mapa-Procesos-Caracterizacion]] | Mapa de procesos | Ubica este proceso dentro del conjunto de procesos del proyecto |
 
 ---
 ## 2. Uso y adaptación de las normas (*tailoring*)
