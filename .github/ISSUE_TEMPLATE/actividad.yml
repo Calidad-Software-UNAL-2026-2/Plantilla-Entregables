@@ -1,95 +1,53 @@
 name: "Actividad de cronograma"
 description: "Registrar una actividad del cronograma con su análisis PERT y ruta crítica (Paso 6)"
-title: "[Actividad] "
+title: "[ACT-XX] "
 labels: ["actividad"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        *Recuerda: El Hito (Milestone) y las fechas de inicio/fin para el Roadmap se configuran en el panel lateral derecho del issue.*
   - type: textarea
     id: descripcion
     attributes:
       label: Descripción de la actividad
+      description: Define claramente el trabajo a realizar y si depende de alguna actividad anterior para poder iniciar.
+      placeholder: "Ej: Configurar el entorno de desarrollo y la base de datos de pruebas. Depende de la finalización de [ACT-02]."
     validations:
       required: true
-  - type: input
-    id: optimista
+  - type: textarea
+    id: analisis_pert
     attributes:
-      label: Estimación optimista (días)
-      description: Valor numérico
+      label: Análisis PERT (Valores en días)
+      description: Reemplaza las "X" con los valores numéricos correspondientes.
+      value: |
+        - **Optimista (O):** X
+        - **Más probable (M):** X
+        - **Pesimista (P):** X
+        - **Tiempo Esperado (TE):** X
+        - **Desviación Estándar (σ):** X
     validations:
       required: true
-  - type: input
-    id: mas_probable
+  - type: textarea
+    id: ruta_critica_cpm
     attributes:
-      label: Estimación más probable (días)
-      description: Valor numérico
-    validations:
-      required: true
-  - type: input
-    id: pesimista
-    attributes:
-      label: Estimación pesimista (días)
-      description: Valor numérico
-    validations:
-      required: true
-  - type: input
-    id: tiempo_esperado
-    attributes:
-      label: Tiempo esperado (días)
-      description: Valor numérico — calculado a mano o en Excel (PERT), se transcribe aquí
-    validations:
-      required: true
-  - type: input
-    id: desviacion_estandar
-    attributes:
-      label: Desviación estándar
-      description: Valor numérico
-    validations:
-      required: true
-  - type: input
-    id: inicio_mas_temprano
-    attributes:
-      label: Inicio más temprano (ES)
-      description: Valor numérico
-    validations:
-      required: true
-  - type: input
-    id: fin_mas_temprano
-    attributes:
-      label: Fin más temprano (EF)
-      description: Valor numérico
-    validations:
-      required: true
-  - type: input
-    id: inicio_mas_tardio
-    attributes:
-      label: Inicio más tardío (LS)
-      description: Valor numérico
-    validations:
-      required: true
-  - type: input
-    id: fin_mas_tardio
-    attributes:
-      label: Fin más tardío (LF)
-      description: Valor numérico
-    validations:
-      required: true
-  - type: input
-    id: holgura
-    attributes:
-      label: Holgura
-      description: Valor numérico
+      label: Análisis de Ruta Crítica - CPM (Valores en días)
+      description: Reemplaza las "X" con los valores numéricos correspondientes.
+      value: |
+        - **Inicio más temprano (ES):** X
+        - **Fin más temprano (EF):** X
+        - **Inicio más tardío (LS):** X
+        - **Fin más tardío (LF):** X
+        - **Holgura:** X
     validations:
       required: true
   - type: dropdown
-    id: ruta_critica
+    id: es_ruta_critica
     attributes:
-      label: "¿Ruta crítica?"
-      options: ["Sí", "No"]
+      label: "¿Pertenece a la Ruta Crítica?"
+      description: Si la holgura es 0, la actividad pertenece a la ruta crítica.
+      options: 
+        - "Sí"
+        - "No"
     validations:
       required: true
-
-# Nota: el hito (Milestone) se asigna con el campo nativo "Milestone" del
-# issue (barra lateral derecha), no como campo de este formulario — así
-# la vista "Roadmap" del Project puede agrupar por hito automáticamente.
-# Las fechas de inicio/fin en la línea de tiempo del Roadmap (Start date /
-# Target date) también se llenan directamente ahí, son campos nativos de
-# esa vista y no hace falta crearlos.
