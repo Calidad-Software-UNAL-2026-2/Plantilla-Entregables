@@ -2,55 +2,21 @@
 
 Repositorio base para desarrollar la Entrega 1 de la materia usando
 GitHub como herramienta de gestión de proyecto. Corresponde al
-criterio **1.7** de la rúbrica (`rubrica-entrega-1.md`).
-
-> **Si eres nuevo en GitHub (monitor o estudiante):** no necesitas saber
-> nada de antemano. Este documento asume que nunca has creado un
-> repositorio, una wiki o un Project, y te explica cada paso.
-
-## Cómo se distribuye este repositorio
-
-Este repositorio está marcado como **Template Repository**
-(configuración ya activada en *Settings → General → Template
-repository*). Cada equipo obtiene su propio repositorio de una de estas
-dos formas:
-
-- **El monitor crea el repo del equipo** (flujo actual): desde la
-  página principal de este repositorio, botón verde **"Use this
-  template" → "Create a new repository"**. Se elige la organización
-  (`Calidad-Software-UNAL-2026`), se le pone un nombre (p. ej.
-  `equipo-03-nombre`) y se marca como **privado**.
-- Luego se invita a los 5 integrantes del equipo como colaboradores
-  desde *Settings → Collaborators and teams* del repo recién creado (o
-  agregándolos a un GitHub Team de la organización con acceso a ese
-  repo, si se prefiere gestionar el acceso por equipos).
-
-El repositorio resultante queda **completamente independiente** del
-repositorio plantilla — no hereda cambios automáticamente. Si más
-adelante se necesita propagar una corrección a un repo ya creado, se
-hace manualmente (traer un archivo puntual con `git checkout <rama-remota> -- <archivo>` desde un remoto apuntando a este repo plantilla).
+criterio **1.7** de la rúbrica.
 
 ## Puesta en marcha por equipo (una sola vez)
 
-Estos pasos los ejecuta el equipo (o el monitor, si prefiere dejarlos
+Estos pasos los ejecuta el equipo (o yo, el monitor, si decido dejarlos
 ya listos antes de entregar el repo):
 
-1. **Protección de rama** — *Settings → Branches → Add rule* sobre
-   `main`:
-   - ✅ Require a pull request before merging
-   - ✅ Require approvals → mínimo 1
-   - Esto genera la evidencia de revisión cruzada del Paso 8, ítem 1, y
-     respalda el nivel Excelente del criterio "Adherencia al flujo de
-     trabajo" (1.4) de la rúbrica.
-2. **Crear labels:** `./scripts/setup-labels.sh` (requiere `gh`
+1. **Crear labels:** `./scripts/setup-labels.sh` (requiere `gh`
    instalado y autenticado — `gh auth login`).
-3. **Crear la primera página de la wiki** manualmente desde el
+2. **Crear la primera página de la wiki** manualmente desde el
    navegador: pestaña **Wiki → Create the first page**. GitHub exige
    esto antes de que la wiki exista como repositorio clonable.
-4. **Poblar el resto de la wiki:**
+3. **Poblar el resto de la wiki:**
    `./scripts/setup-wiki.sh <url-del-repo-del-equipo>`.
-5. **Configurar el GitHub Project:** seguir `docs/guia-github-projects.md`
-   (vistas "Registro de Riesgos", "Registro de Requisitos" y "Roadmap").
+4. **Configurar el GitHub Project:** Crear un project nuevo usando el template de la organización.
 
 ## Estructura del repositorio
 
@@ -60,10 +26,8 @@ ya listos antes de entregar el repo):
     mapa-procesos-flujo-unico.yml   # Paso 3: modelos sin procesos en paralelo
     mapa-procesos-paralelo.yml      # Paso 3: modelos con procesos en paralelo
   ISSUE_TEMPLATE/                    # Formularios para requisitos y riesgos
-  PULL_REQUEST_TEMPLATE.md           # Checklist de revisión cruzada (Paso 8)
 docs/
   mapa-procesos.md                   # Generado automáticamente por el workflow del Paso 3
-  guia-github-projects.md            # Cómo configurar el Project (vistas y campos)
 wiki-plantillas/                     # Contenido fuente para poblar la wiki real
 scripts/
   setup-labels.sh                    # Crea la taxonomía de labels
@@ -99,6 +63,4 @@ minutos de CI de la organización. El resultado final siempre queda en
 | Introducción y registro de riesgos (Paso 5) | Wiki (intro) + Issues + vista "Registro de Riesgos" |
 | Estimación, cronograma y presupuesto (Paso 6) | Wiki (intro, FPA/Planning Poker, presupuesto) + Project vista "Roadmap" (cronograma/PERT/ruta crítica) |
 | Aplicación normativa (Paso 7) | Wiki |
-| PMP y contrato (Paso 8) | Wiki, consolidados vía Pull Request con revisión cruzada |
-
-Ver `CONTRIBUTING.md` para el flujo de trabajo día a día del equipo.
+| PMP y contrato (Paso 8) | Wiki |
