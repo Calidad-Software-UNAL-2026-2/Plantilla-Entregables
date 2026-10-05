@@ -1,48 +1,65 @@
 name: "Riesgo"
 description: "Registrar un riesgo del proyecto (Paso 5 - Registro de Riesgos)"
-title: "[Riesgo] "
+title: "[RSG-XX] "
 labels: ["riesgo"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        *Recuerda: El "Responsable" de monitorear este riesgo se asigna en el panel lateral derecho (Assignees).*
   - type: textarea
     id: causa
     attributes:
-      label: Causa
+      label: Causa (El origen)
+      description: ¿Qué condición, hecho o situación existente podría provocar que este riesgo se materialice?
+      placeholder: "Ej: El proveedor de la pasarela de pagos no tiene un entorno de pruebas (sandbox) estable."
     validations:
       required: true
   - type: textarea
     id: efecto
     attributes:
-      label: Efecto
+      label: Efecto (El impacto en el proyecto)
+      description: Si el riesgo ocurre, ¿cómo afectará al cronograma, costo, alcance o calidad?
+      placeholder: "Ej: Retraso de hasta 2 semanas en la integración del módulo de facturación, afectando el hito 3."
     validations:
       required: true
   - type: dropdown
     id: probabilidad
     attributes:
-      label: Probabilidad
-      options: ["Baja", "Media", "Alta"]
+      label: Probabilidad de ocurrencia
+      options:
+        - "Baja"
+        - "Media"
+        - "Alta"
     validations:
       required: true
   - type: dropdown
     id: impacto
     attributes:
-      label: Impacto
-      options: ["Bajo", "Medio", "Alto"]
+      label: Impacto (Severidad)
+      options:
+        - "Bajo"
+        - "Medio"
+        - "Alto"
     validations:
       required: true
   - type: dropdown
     id: estrategia
     attributes:
       label: Estrategia de respuesta
-      options: ["Evitar", "Transferir", "Mitigar", "Aceptar"]
+      description: ¿Cómo abordará el equipo este riesgo?
+      options:
+        - "Evitar (Cambiar el plan para eliminar la amenaza)"
+        - "Transferir (Pasar el impacto a un tercero, ej. garantías)"
+        - "Mitigar (Reducir probabilidad o impacto preventivamente)"
+        - "Aceptar (Asumir la consecuencia y tener plan de contingencia)"
     validations:
       required: true
   - type: textarea
     id: plan_accion
     attributes:
-      label: Plan de acción (contingencia o alternativo)
+      label: Plan de acción (Preventivo o de Contingencia)
+      description: Describe los pasos concretos. Por ejemplo, si elegiste Mitigar, escribe acciones preventivas o si elegiste Aceptar, escribe qué harán cuando el problema explote.
+      placeholder: "Ej: [Plan de Mitigación] Desarrollar la integración usando un mock local mientras el proveedor estabiliza su sandbox."
     validations:
       required: true
-
-# Nota: el "responsable" del riesgo se asigna con el campo nativo
-# "Assignees" del issue (barra lateral derecha), no como campo de este
-# formulario — así queda como un @usuario real y filtrable.
